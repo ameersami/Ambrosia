@@ -1,0 +1,47 @@
+type Query {
+    "A simple type for getting started!"
+    getRestaurant(restaurantID: Int!): Restaurant
+    getRestaurants(restaurantIDs: [Int!]): [Restaurant!]
+}
+
+type Mutation {
+    signUp(email: String!, password: String!, name: String!): signUpResponse!
+    signIn(email: String!, password: String!): signinResponse!
+    addRestaurant(restaurantID: Int!, title: String!, users: [Int!]): addRestaurantResponse!
+    visitRestaurant(restaurantID: Int!): visitRestaurantResponse!
+    unVisitRestaurant(restaurantID: Int!): visitRestaurantResponse!
+}
+
+type User {
+    _id: ID!
+    name: String!
+    email: String!
+    password: String!
+    resetToken: String
+    resetTokenExpiry: Float
+    savedRestaurants: [Int!]
+}
+
+type Restaurant {
+    restaurantID: ID!
+    title: String!
+    users: [Int!]
+}
+
+type signUpResponse {
+    alreadyExists: Boolean!
+    user: User
+}
+
+type signinResponse {
+    success: Boolean!
+}
+
+type addRestaurantResponse {
+    success: Boolean!
+    restaurantID: ID!
+}
+
+type visitRestaurantResponse {
+    success: Boolean!
+}

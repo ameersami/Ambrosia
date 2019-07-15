@@ -1,0 +1,29 @@
+{
+  "name": "ambrosia-backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Ameer Sami",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "start": "npx nodemon ./server.js"
+  },
+  "dependencies": {
+    "apollo-server": "^2.6.3",
+    "apollo-server-express": "^2.6.3",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "graphql": "^14.3.1",
+    "graphql-import": "^0.7.1",
+    "graphql-tools": "^4.0.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.5.12"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "description": ""
+}

@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  backend:
+    build: ./backend
+    image: ambrosiabackend:latest
+    deploy:
+      restart_policy:
+        condition: "any"
+        delay: "0"
+        max_attempts: 3
+        window: "30s"
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./backend:/app
+  mongo:
+    image: mongo
+    ports:
+    - "27017:27017"
