@@ -82,17 +82,45 @@ const Mutations = {
     const restaurant = await Restaurant.findOne({ restaurantID: args.restaurantID });
 
     if (ctx.req.userId && restaurant) {
-      const savedRestaurants = ctx.req.user.savedRestaurants.push(restaurant._id);
-      await User.findByIdAndUpdate(ctx.req.userId, { savedRestaurants });
+      if (!ctx.req.user.savedRestaurants.includes(restaurant._id)) {
+        ctx.req.user.savedRestaurants.push(restaurant._id);
+        await User.findByIdAndUpdate(ctx.req.userId, { savedRestaurants: ctx.req.user.savedRestaurants });
+      }
 
-      const users = restaurant.users.push(ctx.req.userId);
-      await Restaurant.findByIdAndUpdate(restaurant._id, { users });
+      if (!restaurant.users.includes(ctx.req.userId)) {
+        restaurant.users.push(ctx.req.userId);
+        await Restaurant.findByIdAndUpdate(restaurant._id, { users: restaurant.users });
+      }
 
       success = true;
     }
 
     return {
       success,
+    };
+  },
+
+  async unVisitRestaurant(parent, args, ctx, info) {
+    let success = false;
+    const restaurant = await Restaurant.findOne({ restaurantID: args.restaurantID });
+
+    if (ctx.req.userId && restaurant) {
+      if (ctx.req.user.savedRestaurants.includes(restaurant._id)) {
+        ctx.req.user.savedRestaurants = ctx.req.user.savedRestaurants.filter(id => id.toString() !== restaurant._id.toString());
+        await User.findByIdAndUpdate(ctx.req.userId, { savedRestaurants: ctx.req.user.savedRestaurants });
+      }
+
+      if (restaurant.users.includes(ctx.req.userId)) {
+        restaurant.users = restaurant.users.filter(id => id.toString() !== ctx.req.userId.toString());
+        await Restaurant.findByIdAndUpdate(restaurant._id, { users: restaurant.users });
+      }
+
+      success = true;
+    }
+
+
+    return {
+      success
     };
   },
 };

@@ -3,6 +3,7 @@ require('dotenv').config({ path: 'variables.env' });
 const { User, Restaurant } = require('./dbSchema');
 
 mongoose.Promise = global.Promise;
+mongoose.set('useFindAndModify', false);
 const url = `mongodb://${process.env.MONGO_DOMAIN}:27017/graphqldb`;
 mongoose.connect(url, { useNewUrlParser: true });
 

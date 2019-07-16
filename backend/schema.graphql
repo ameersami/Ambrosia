@@ -25,7 +25,7 @@ type User {
 type Restaurant {
     restaurantID: ID!
     title: String!
-    users: [Int!]
+    users: [String!]
 }
 
 type signUpResponse {

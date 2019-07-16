@@ -33,7 +33,7 @@ app.use(async (req, res, next) => {
     const { userId } = jwt.verify(token, process.env.APP_SECRET);
     const user = await User.findById(userId).exec();
     req.user = user;
-    req.userId = user._id;
+    req.userId = user ? user._id : null;
   }
   next();
 });
