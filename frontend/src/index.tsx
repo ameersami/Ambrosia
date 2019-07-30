@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import Button from './components/Button/Button';
+import HomePage from './Scenes/HomePage';
 
-ReactDOM.render(<Button />, document.getElementById('root'));
+ReactDOM.render(<HomePage/>, document.getElementById('root'));
