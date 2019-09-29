@@ -1,15 +1,25 @@
 type Query {
-    "A simple type for getting started!"
-    getRestaurant(restaurantID: Int!): Restaurant
-    getRestaurants(restaurantIDs: [Int!]): [Restaurant!]
+    "Retrieve a single stored Restaurant based on its id"
+    getStoredRestaurant(jwt: String!, restaurantID: Int!): Restaurant
+    "Retrieve multiple stored Restaurants based on their ids"
+    getStoredRestaurants(jwt: String!, restaurantIDs: [Int!]): [Restaurant!]
+    "Search for Restaurants from the Yelp API"
+    searchRestaurants(jwt: String!, latitude: Float!, longitude: Float!, radius: Int, term: String, location: String, limit: Int): searchResponse!
+    "Retrieve a single Restaurant from the Yelp API based on its id"
+    getRestaurant(jwt: String!, id: String!): Business!
 }
 
 type Mutation {
+    "Register a user"
     signUp(email: String!, password: String!, name: String!): signUpResponse!
+    "Sign a user in"
     signIn(email: String!, password: String!): signinResponse!
-    addRestaurant(restaurantID: Int!, title: String!, users: [Int!]): addRestaurantResponse!
-    visitRestaurant(restaurantID: Int!): visitRestaurantResponse!
-    unVisitRestaurant(restaurantID: Int!): visitRestaurantResponse!
+    "Add a Restaurant to the DB"
+    addRestaurant(jwt: String!, restaurantID: Int!, title: String!, users: [Int!]): addRestaurantResponse!
+    "Have a user visit a restaurant"
+    visitRestaurant(jwt: String!, restaurantID: Int!): visitRestaurantResponse!
+    "Have a user unvisit a restaurant"
+    unVisitRestaurant(jwt: String!, restaurantID: Int!): visitRestaurantResponse!
 }
 
 type User {
@@ -29,11 +39,13 @@ type Restaurant {
 }
 
 type signUpResponse {
+    jwt: String!
     alreadyExists: Boolean!
     user: User
 }
 
 type signinResponse {
+    jwt: String!
     success: Boolean!
 }
 
@@ -44,4 +56,53 @@ type addRestaurantResponse {
 
 type visitRestaurantResponse {
     success: Boolean!
+}
+
+type searchResponse { 
+    total: Int!
+    business: [Business!]!
+}
+
+type Business {
+    name: String!
+    id: String!
+    isClosed: Boolean!
+    url: String!
+    phone: String!
+    display_phone: String!
+    review_count: Int!
+    rating: Float!
+    price: String!
+    distance: Float!
+    location: Location!
+    photos: String!
+    reviews: [Review!]!
+    hours: [Hours!]!
+}
+
+type Location {
+    address1: String!
+    city: String!
+    state: String!
+    postal_code: String!
+    formatted_address: String!
+}
+
+type Review {
+    text: String!
+    rating: Float!
+    time_created: String!
+    url: String!
+}
+
+type Hours {
+    is_open_now: Boolean!
+    open: [OpenHours]!
+}
+
+type OpenHours {
+    is_overnight: Boolean!
+    end: String!
+    start: String!
+    day: Int!
 }

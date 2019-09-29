@@ -3,6 +3,7 @@ const { ApolloServer } = require('apollo-server-express');
 const { importSchema } = require('graphql-import');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const app = express();
 const typeDefs = importSchema('schema.graphql');
@@ -12,6 +13,10 @@ const { User } = require('./db');
 
 require('./db');
 require('dotenv').config({ path: 'variables.env' });
+
+const corsOptions = {
+  origin: '*',
+};
 
 const server = new ApolloServer({
   typeDefs,
@@ -25,18 +30,9 @@ const server = new ApolloServer({
   },
 });
 
-app.use(cookieParser());
+app.use(cors(corsOptions));
 
-app.use(async (req, res, next) => {
-  const { token } = req.cookies;
-  if (token) {
-    const { userId } = jwt.verify(token, process.env.APP_SECRET);
-    const user = await User.findById(userId).exec();
-    req.user = user;
-    req.userId = user ? user._id : null;
-  }
-  next();
-});
+app.use(cookieParser());
 
 server.applyMiddleware({ app });
 

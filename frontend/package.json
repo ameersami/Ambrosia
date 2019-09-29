@@ -14,7 +14,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.4.3",
+    "apollo-boost": "^0.4.3",
+    "apollo-cache-inmemory": "^1.6.3",
+    "apollo-client": "^2.6.4",
+    "graphql": "^14.4.2",
     "react": "16.8.6",
+    "react-apollo": "^2.5.8",
     "react-dom": "16.8.6",
     "styled-components": "4.2.0",
     "typescript": "3.4.2"
